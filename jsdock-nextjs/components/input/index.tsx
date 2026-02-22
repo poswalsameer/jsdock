@@ -14,7 +14,7 @@ export function StdinInput() {
 
   return (
     <div className="flex flex-col h-full bg-background border-t border-border" style={{ fontFamily, fontSize }}>
-      <div className="flex items-center gap-2 px-4 py-2 bg-secondary border-b border-border text-muted-foreground font-sans text-sm uppercase tracking-wider font-semibold">
+      <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-secondary border-b border-border text-muted-foreground font-sans text-sm uppercase tracking-wider font-semibold">
         <TerminalSquare className="w-4 h-4" />
         Input
       </div>

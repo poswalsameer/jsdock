@@ -27,14 +27,14 @@ export function Output() {
       className="flex flex-col h-full bg-background text-foreground"
       style={{ fontFamily, fontSize }}
     >
-      <div className="flex items-center justify-between px-4 py-2 bg-secondary border-b border-border">
-        <div className="flex items-center gap-2 text-muted-foreground font-sans text-sm uppercase tracking-wider font-semibold">
+      <div className="hidden lg:flex items-center justify-between px-4 py-2 bg-secondary border-b border-border">
+        <div className="flex items-center gap-2 text-muted-foreground font-sans text-xs lg:text-sm uppercase tracking-wider font-semibold">
           <Terminal className="w-4 h-4" />
           Output
         </div>
         {executionTime !== null && (
           <div className={clsx(
-            "flex items-center gap-1.5 text-sm",
+            "flex items-center gap-1.5 text-xs lg:text-sm",
             executionTime >= 2000 ? "text-red-400" : "text-green-400"
           )}>
             {executionTime >= 2000 ? <AlertCircle className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
@@ -45,7 +45,7 @@ export function Output() {
 
       <ScrollArea className="flex-1 p-4">
         {logs.length === 0 ? (
-          <div className="text-muted-foreground" style={{ fontFamily, fontSize }}>No output yet. Run your code to see results.</div>
+          <div className="text-muted-foreground text-xs lg:text-sm" style={{ fontFamily, fontSize }}>No output yet. Run your code to see results.</div>
         ) : (
           <div className="flex flex-col gap-1 w-full">
             {logs.map((log, i) => (

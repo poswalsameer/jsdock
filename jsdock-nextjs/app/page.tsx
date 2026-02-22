@@ -5,6 +5,7 @@ import { useAtom, useSetAtom } from 'jotai'
 import { Header } from '@/components/header'
 import { Output } from '@/components/output'
 import { StdinInput } from '@/components/input'
+import { MobileBottomPanel } from '@/components/mobile-bottom-panel'
 import {
   codeAtom,
   verticalLayoutAtom,
@@ -26,7 +27,8 @@ export default function Home() {
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-background text-foreground">
       <Header />
 
-      <div className="flex-1 min-h-0">
+      {/* ─── Desktop layout (lg and above) ───────────────────────────────── */}
+      <div className="hidden lg:flex flex-1 min-h-0">
         <ResizablePanelGroup
           orientation="horizontal"
           onLayoutChange={(sizes) => setHorizontalLayout(sizes as unknown as number[])}
@@ -58,6 +60,16 @@ export default function Home() {
             </ResizablePanelGroup>
           </ResizablePanel>
         </ResizablePanelGroup>
+      </div>
+
+      <div className="flex lg:hidden flex-col flex-1 min-h-0">
+        <div className="flex-6 min-h-0 bg-background">
+          <CodeEditor onChange={(val) => setCode(val || '')} />
+        </div>
+        <div className="h-px bg-border shrink-0" />
+        <div className="flex-4 min-h-0">
+          <MobileBottomPanel />
+        </div>
       </div>
     </div>
   )
