@@ -26,6 +26,12 @@ import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 import { Play, Trash2 } from 'lucide-react'
 
+const FONT_FAMILY_MAP: Record<string, string> = {
+  'Monaco': 'Monaco, Menlo, Consolas, "Courier New", monospace',
+  'JetBrains Mono': 'var(--font-jetbrains-mono), monospace',
+  'Geist Mono': 'var(--font-geist-mono), monospace',
+}
+
 export function TopPanel() {
   const [theme, setTheme] = useAtom(themeAtom)
   const [font, setFont] = useAtom(fontAtom)
@@ -36,6 +42,8 @@ export function TopPanel() {
   const [isExecuting, setIsExecuting] = useAtom(isExecutingAtom)
   const [, setLogs] = useAtom(logsAtom)
   const [, setExecutionTime] = useAtom(executionTimeAtom)
+
+  const fontFamily = FONT_FAMILY_MAP[font] ?? FONT_FAMILY_MAP['Monaco']
 
   const handleRun = async () => {
     setIsExecuting(true)
@@ -66,7 +74,10 @@ export function TopPanel() {
   }
 
   return (
-    <div className="h-14 border-b border-border bg-card flex items-center justify-between px-4 text-card-foreground">
+    <div
+      className="h-14 border-b border-border bg-card flex items-center justify-between px-4 text-card-foreground"
+      style={{ fontFamily }}
+    >
       <div className="flex items-center gap-4">
         <div className="font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-400">
           JS Playground

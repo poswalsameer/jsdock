@@ -9,7 +9,7 @@ import { THEMES } from '@/lib/monaco-themes'
 // Font mapping for Monaco
 const FONT_MAP: Record<string, string> = {
   'Monaco': 'Monaco, Menlo, Consolas, "Courier New", monospace',
-  'JetBrains Mono': '"JetBrains Mono", monospace',
+  'JetBrains Mono': 'var(--font-jetbrains-mono), monospace',
   'Geist Mono': 'var(--font-geist-mono), monospace',
 }
 
@@ -29,14 +29,23 @@ export function CodeEditor({ onChange }: CodeEditorProps) {
 
   useEffect(() => {
     if (monaco) {
-      // Define themes
+      // Register all custom themes first, then immediately activate the
+      // selected one. Doing both in one effect eliminates the race condition
+      // where Monaco tried to use a theme that wasn't defined yet on page load,
+      // causing the editor to fall back to the white default theme.
       Object.entries(THEMES).forEach(([themeName, themeData]) => {
         // @ts-expect-error - Monaco types might be incomplete for theme definition
         monaco.editor.defineTheme(themeName, themeData)
       })
+      // Apply the user's saved theme immediately after registering it
+      monaco.editor.setTheme(theme)
     }
+    // NOTE: `theme` is intentionally included here so that if the user
+    // switches themes before Monaco is ready, the latest value is used.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [monaco])
 
+  // Handle theme changes after Monaco is already initialised
   useEffect(() => {
     if (monaco && editorRef.current) {
       monaco.editor.setTheme(theme)
