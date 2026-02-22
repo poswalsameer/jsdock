@@ -1,13 +1,20 @@
 "use client"
 
 import { useAtom } from 'jotai'
-import { horizontalLayoutAtom, verticalLayoutAtom, codeAtom } from '@/store'
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable'
-
 import dynamic from 'next/dynamic'
+import { StdinInput } from './input'
 import { TopPanel } from './top-panel'
 import { ConsoleOutput } from './output'
-import { StdinInput } from './input'
+import {
+  codeAtom,
+  verticalLayoutAtom,
+  horizontalLayoutAtom,
+} from '@/store'
+import {
+  ResizablePanel,
+  ResizableHandle,
+  ResizablePanelGroup,
+} from '@/components/ui/resizable'
 
 // Dynamically import CodeEditor to disable SSR
 const CodeEditor = dynamic(() => import('./editor').then(mod => mod.CodeEditor), {
