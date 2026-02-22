@@ -1,10 +1,10 @@
 "use client"
 
-import { useAtom, useSetAtom } from 'jotai'
 import dynamic from 'next/dynamic'
-import { StdinInput } from '@/components/input'
+import { useAtom, useSetAtom } from 'jotai'
 import { Header } from '@/components/header'
-import { ConsoleOutput } from '@/components/output'
+import { Output } from '@/components/output'
+import { StdinInput } from '@/components/input'
 import {
   codeAtom,
   verticalLayoutAtom,
@@ -17,10 +17,10 @@ import {
 } from '@/components/ui/resizable'
 
 export default function Home() {
-  const setCode = useSetAtom(codeAtom)
-
-  const [horizontalLayout, setHorizontalLayout] = useAtom(horizontalLayoutAtom)
   const [verticalLayout, setVerticalLayout] = useAtom(verticalLayoutAtom)
+  const [horizontalLayout, setHorizontalLayout] = useAtom(horizontalLayoutAtom)
+
+  const setCode = useSetAtom(codeAtom)
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-background text-foreground">
@@ -47,7 +47,7 @@ export default function Home() {
               onLayoutChange={(sizes) => setVerticalLayout(sizes as unknown as number[])}
             >
               <ResizablePanel defaultSize={verticalLayout[0]} minSize={20}>
-                <ConsoleOutput />
+                <Output />
               </ResizablePanel>
 
               <ResizableHandle withHandle className="bg-border hover:bg-primary transition-colors" />
@@ -63,7 +63,6 @@ export default function Home() {
   )
 }
 
-// Dynamically import CodeEditor to disable SSR
 const CodeEditor = dynamic(() => import('../components/editor').then(mod => mod.CodeEditor), {
   ssr: false,
   loading: () => (
