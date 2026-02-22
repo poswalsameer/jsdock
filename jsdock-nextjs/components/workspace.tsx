@@ -1,15 +1,16 @@
 "use client"
 
 import { useAtom } from 'jotai'
-import { horizontalLayoutAtom, verticalLayoutAtom, codeAtom } from '@/store/atoms'
+import { horizontalLayoutAtom, verticalLayoutAtom, codeAtom } from '@/store'
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable'
-import { TopPanel } from './TopPanel'
-import { ConsoleOutput } from '../panels/ConsoleOutput'
-import { StdinInput } from '../panels/StdinInput'
+
 import dynamic from 'next/dynamic'
+import { TopPanel } from './top-panel'
+import { ConsoleOutput } from './output'
+import { StdinInput } from './input'
 
 // Dynamically import CodeEditor to disable SSR
-const CodeEditor = dynamic(() => import('../editor/CodeEditor').then(mod => mod.CodeEditor), {
+const CodeEditor = dynamic(() => import('./editor').then(mod => mod.CodeEditor), {
   ssr: false,
   loading: () => (
     <div className="flex h-full w-full items-center justify-center bg-background text-muted-foreground">

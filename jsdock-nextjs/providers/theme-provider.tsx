@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { useAtomValue } from 'jotai'
-import { themeAtom } from '@/store/atoms'
+import { themeAtom } from '@/store'
 
 export function ThemeProvider() {
   const theme = useAtomValue(themeAtom)

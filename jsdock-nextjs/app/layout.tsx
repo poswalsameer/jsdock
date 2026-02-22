@@ -1,8 +1,8 @@
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import { Provider as JotaiProvider } from "jotai"
-import { ThemeProvider } from "@/components/ThemeProvider"
 import "./globals.css"
+import type { Metadata } from "next"
+import { Provider as JotaiProvider } from "jotai"
+import { Geist, Geist_Mono } from "next/font/google"
+import { ThemeProvider } from "@/providers/theme-provider"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

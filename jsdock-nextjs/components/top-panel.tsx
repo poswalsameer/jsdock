@@ -12,7 +12,7 @@ import {
   executionTimeAtom,
   ThemeType,
   FontType
-} from '@/store/atoms'
+} from '@/store'
 import { executeCode } from '@/lib/execute-code'
 import { Button } from '@/components/ui/button'
 import {
@@ -68,7 +68,7 @@ export function TopPanel() {
   return (
     <div className="h-14 border-b border-border bg-card flex items-center justify-between px-4 text-card-foreground">
       <div className="flex items-center gap-4">
-        <div className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
+        <div className="font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-400">
           JS Playground
         </div>
 

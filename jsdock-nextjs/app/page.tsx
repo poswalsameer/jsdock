@@ -1,4 +1,4 @@
-import { Workspace } from '@/components/layout/Workspace'
+import { Workspace } from '@/components/workspace'
 
 export default function Home() {
   return <Workspace />

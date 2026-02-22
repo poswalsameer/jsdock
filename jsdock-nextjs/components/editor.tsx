@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { useAtomValue } from 'jotai'
-import { codeAtom, themeAtom, fontAtom, fontSizeAtom, ligaturesAtom } from '@/store/atoms'
+import { codeAtom, themeAtom, fontAtom, fontSizeAtom, ligaturesAtom } from '@/store'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import { THEMES } from '@/lib/monaco-themes'
 

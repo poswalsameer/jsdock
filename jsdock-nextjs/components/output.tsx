@@ -1,7 +1,7 @@
 "use client"
 
 import { useAtomValue } from 'jotai'
-import { logsAtom, executionTimeAtom } from '@/store/atoms'
+import { logsAtom, executionTimeAtom } from '@/store'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Terminal, Clock, AlertCircle } from 'lucide-react'
 import { useEffect, useRef } from 'react'

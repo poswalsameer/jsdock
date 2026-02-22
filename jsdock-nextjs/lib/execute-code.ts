@@ -1,4 +1,4 @@
-import { LogEntry } from '../store/atoms'
+import { LogEntry } from '../store'
 
 export interface ExecutionResult {
   logs: LogEntry[]
