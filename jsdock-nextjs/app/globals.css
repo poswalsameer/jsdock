@@ -117,46 +117,62 @@
 }
 
 .theme-vs-dark {
-  --background: #1e1e1e;
-  --foreground: #d4d4d4;
-  --card: #1e1e1e;
-  --card-foreground: #d4d4d4;
-  --popover: #252526;
-  --popover-foreground: #d4d4d4;
-  --primary: #0e639c;
+  /* Backgrounds — deeper charcoal layers */
+  --background: #141414;
+  --foreground: #e2e2e2;
+  --card: #141414;
+  --card-foreground: #e2e2e2;
+  --popover: #1c1c1c;
+  --popover-foreground: #e2e2e2;
+  /* Deep electric blue (richer than stock VS Code #0e639c) */
+  --primary: #1a7fd4;
   --primary-foreground: #ffffff;
-  --secondary: #2d2d30;
-  --secondary-foreground: #cccccc;
-  --muted: #2d2d30;
-  --muted-foreground: #858585;
-  --accent: #2a2d2e;
+  /* Secondary / panel header surfaces */
+  --secondary: #1e1e1e;
+  --secondary-foreground: #d4d4d4;
+  /* Muted text & surfaces */
+  --muted: #1e1e1e;
+  --muted-foreground: #8a8a8a;
+  /* Hover / accent surface */
+  --accent: #252525;
   --accent-foreground: #ffffff;
-  --destructive: #f48771;
+  /* Errors */
+  --destructive: #f97575;
   --destructive-foreground: #ffffff;
-  --border: #3e3e42;
-  --input: #3e3e42;
-  --ring: #0e639c;
+  /* Borders & inputs — more visible than before */
+  --border: #2e2e2e;
+  --input: #2e2e2e;
+  --ring: #1a7fd4;
 }
 
 .theme-atom-dark {
+  /* ── akamud One Dark (exact from extension JSON) ── */
   --background: #282c34;
   --foreground: #abb2bf;
   --card: #282c34;
   --card-foreground: #abb2bf;
+  /* Popover / dropdowns = editorGroup.background */
   --popover: #21252b;
   --popover-foreground: #abb2bf;
-  --primary: #528bff;
+  /* Primary = button.background */
+  --primary: #4d78cc;
   --primary-foreground: #ffffff;
-  --secondary: #181a1f;
+  /* Secondary / panel headers = sideBar.background */
+  --secondary: #21252b;
   --secondary-foreground: #abb2bf;
-  --muted: #3e4451;
-  --muted-foreground: #5c6370;
+  /* Muted = editorLineNumber.foreground context */
+  --muted: #21252b;
+  --muted-foreground: #636d83;
+  /* Hover accent = list.activeSelectionBackground */
   --accent: #2c313a;
-  --accent-foreground: #ffffff;
+  --accent-foreground: #d7dae0;
+  /* Errors */
   --destructive: #e06c75;
   --destructive-foreground: #ffffff;
-  --border: #3e4451;
-  --input: #3e4451;
+  /* Borders = tab.border / dropdown.border */
+  --border: #181a1f;
+  --input: #1b1d23;
+  /* Focus ring = focusBorder */
   --ring: #528bff;
 }
 
