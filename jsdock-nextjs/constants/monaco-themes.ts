@@ -4,7 +4,7 @@ export const THEMES = {
     inherit: true,
     rules: [
       // Comments — muted but readable
-      { token: 'comment', foreground: '6a737d', fontStyle: 'italic' },
+      { token: 'comment', foreground: '6a737d' },
       // Keywords — bright blue, the VS Code signature
       { token: 'keyword', foreground: '4ec9f0' },
       { token: 'keyword.operator', foreground: '4ec9f0' },
@@ -67,7 +67,7 @@ export const THEMES = {
       // ── Exact token colors from akamud.vscode-theme-onedark ──────────
 
       // Comments
-      { token: 'comment', foreground: '5C6370', fontStyle: 'italic' },
+      { token: 'comment', foreground: '5C6370' },
 
       // Keywords — purple
       { token: 'keyword', foreground: 'C678DD' },
@@ -167,7 +167,7 @@ export const THEMES = {
     base: 'vs-dark',
     inherit: true,
     rules: [
-      { token: 'comment', foreground: '6c7086', fontStyle: 'italic' },
+      { token: 'comment', foreground: '6c7086' },
       { token: 'keyword', foreground: 'cba6f7' },
       { token: 'string', foreground: 'a6e3a1' },
       { token: 'number', foreground: 'fab387' },

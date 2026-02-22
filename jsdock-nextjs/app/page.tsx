@@ -27,7 +27,6 @@ export default function Home() {
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-background text-foreground">
       <Header />
 
-      {/* ─── Desktop layout (lg and above) ───────────────────────────────── */}
       <div className="hidden lg:flex flex-1 min-h-0">
         <ResizablePanelGroup
           orientation="horizontal"

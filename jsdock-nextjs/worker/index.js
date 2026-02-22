@@ -1,8 +1,31 @@
 // worker.js
 // This worker runs in an isolated thread with no DOM or window access.
-// We intercept console.log, info, warn, error to pass them back.
+// Intercept console.log, info, warn, error to pass them back.
 
 self.onmessage = function (e) {
+  // Block network and storage APIs to prevent external API calls
+  // and reading app data. Keep the environment restricted to native JS logic.
+  const BLOCKED_APIS = [
+    "fetch",
+    "XMLHttpRequest",
+    "WebSocket",
+    "EventSource",
+    "localStorage",
+    "sessionStorage",
+    "indexedDB",
+    "caches",
+    "BroadcastChannel",
+    "open",
+    "importScripts",
+  ]
+  BLOCKED_APIS.forEach((api) => {
+    try {
+      delete self[api]
+    } catch {
+      self[api] = undefined
+    }
+  })
+
   const { code, stdin } = e.data
 
   const logs = []
@@ -53,28 +76,36 @@ self.onmessage = function (e) {
   }
 
   const startTime = performance.now()
-  let executionError = null
 
-  try {
-    // We use new Function to execute the code.
-    // It is scoped to the worker global.
-    const executor = new Function(code)
-    executor()
-  } catch (err) {
-    executionError = err.toString()
+  // Wrap user code in an async IIFE so that top-level await works
+  const asyncExecutor = new Function(`return (async () => { ${code} })()`)
+
+  function finish(executionError) {
+    const endTime = performance.now()
+
+    // Restore console
+    console.log = originalConsole.log
+    console.info = originalConsole.info
+    console.warn = originalConsole.warn
+    console.error = originalConsole.error
+
+    self.postMessage({
+      logs,
+      error: executionError,
+      executionTime: Number((endTime - startTime).toFixed(2)),
+    })
   }
 
-  const endTime = performance.now()
+  try {
+    const result = asyncExecutor()
 
-  // Restore console
-  console.log = originalConsole.log
-  console.info = originalConsole.info
-  console.warn = originalConsole.warn
-  console.error = originalConsole.error
-
-  self.postMessage({
-    logs,
-    error: executionError,
-    executionTime: Number((endTime - startTime).toFixed(2)),
-  })
+    // If it returned a Promise (which the async IIFE does), wait for it
+    if (result && typeof result.then === "function") {
+      result.then(() => finish(null)).catch((err) => finish(err.toString()))
+    } else {
+      finish(null)
+    }
+  } catch (err) {
+    finish(err.toString())
+  }
 }

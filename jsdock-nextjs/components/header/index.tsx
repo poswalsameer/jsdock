@@ -6,7 +6,7 @@ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover
 import type { Font, Theme } from '@/types'
 import { FONT_FAMILY_MAP } from '@/constants'
 import { Button } from '@/components/ui/button'
-import { executeCode } from '@/lib/execute-code'
+import { executeCode } from '@/functions/execute-code'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import {
   themeAtom,
@@ -231,22 +231,22 @@ export function Header() {
         </div>
 
         {/* Mobile: icon only */}
-        <div className="flex lg:hidden items-center gap-x-1">
-          <button
+        <div className="flex lg:hidden items-center gap-x-2">
+          <Button
             onClick={handleClear}
-            className="flex items-center justify-center w-8 h-8 border border-border bg-transparent text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            className="rounded-none flex items-center justify-center w-8 h-8 border border-border bg-transparent text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
             aria-label="Clear output"
           >
             <Trash2 className="w-4 h-4" />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleRun}
             disabled={isExecuting}
-            className="flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            className="rounded-none flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             aria-label="Run code"
           >
             <Play className="w-4 h-4 fill-current" />
-          </button>
+          </Button>
         </div>
 
       </div>

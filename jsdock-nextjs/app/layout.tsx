@@ -1,8 +1,9 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { Provider as JotaiProvider } from "jotai"
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
+import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from "@/providers/theme-provider"
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,8 +22,8 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "JS Playground",
-  description: "A browser-based JavaScript playground",
+  title: "JS Dock",
+  description: "A browser-based JavaScript playground to run your daily driving JS code without any hassle",
 }
 
 export default function RootLayout({
@@ -39,6 +40,7 @@ export default function RootLayout({
           <ThemeProvider />
           {children}
         </JotaiProvider>
+        <Analytics />
       </body>
     </html>
   )

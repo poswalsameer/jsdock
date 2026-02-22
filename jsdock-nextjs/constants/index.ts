@@ -1,5 +1,5 @@
-export const DEFAULT_CODE = `// Welcome to the JavaScript Playground
-// You can use standard JavaScript and web APIs
+export const DEFAULT_CODE = `// Welcome to the JS Dock
+// You can use run your standard Javascript code to play around more with this absurd programming language
 
 function calculateFactorial(n) {
   if (n === 0 || n === 1) return 1;

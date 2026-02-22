@@ -3,7 +3,7 @@
 import { useAtomValue } from 'jotai'
 import { FONT_MAP } from '@/constants'
 import { useEffect, useRef } from 'react'
-import { THEMES } from '@/lib/monaco-themes'
+import { THEMES } from '@/constants/monaco-themes'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import {
   codeAtom,

@@ -1,4 +1,4 @@
-import type { LogEntry } from '../types'
+import type { LogEntry } from '../../types'
 
 export interface ExecutionResult {
   logs: LogEntry[]
@@ -21,7 +21,7 @@ export async function executeCode(code: string, stdin: string = ''): Promise<Exe
     }
 
     // Spin up new worker
-    currentWorker = new Worker('/worker.js')
+    currentWorker = new Worker(new URL('../../worker/index.js', import.meta.url))
 
     // 2-second timeout mechanism
     currentTimeout = setTimeout(() => {
