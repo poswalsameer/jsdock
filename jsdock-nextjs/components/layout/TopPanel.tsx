@@ -66,22 +66,22 @@ export function TopPanel() {
   }
 
   return (
-    <div className="h-14 border-b bg-zinc-950 flex items-center justify-between px-4 text-zinc-200">
+    <div className="h-14 border-b border-border bg-card flex items-center justify-between px-4 text-card-foreground">
       <div className="flex items-center gap-4">
         <div className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
           JS Playground
         </div>
 
-        <div className="h-6 w-px bg-zinc-800 mx-2" />
+        <div className="h-6 w-px bg-border mx-2" />
 
         {/* Theme Selector */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-400">Theme</span>
+          <span className="text-xs text-muted-foreground">Theme</span>
           <Select value={theme} onValueChange={(v) => setTheme(v as ThemeType)}>
-            <SelectTrigger className="w-[140px] h-8 bg-zinc-900 border-zinc-800 text-xs">
+            <SelectTrigger className="w-[140px] h-8 bg-popover border-border text-xs">
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-200">
+            <SelectContent className="bg-popover border-border text-popover-foreground">
               <SelectItem value="vs-dark">VS Code Dark</SelectItem>
               <SelectItem value="atom-dark">Atom Dark</SelectItem>
               <SelectItem value="catppuccin">Catppuccin</SelectItem>
@@ -91,12 +91,12 @@ export function TopPanel() {
 
         {/* Font Selector */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-400">Font</span>
+          <span className="text-xs text-muted-foreground">Font</span>
           <Select value={font} onValueChange={(v) => setFont(v as FontType)}>
-            <SelectTrigger className="w-[140px] h-8 bg-zinc-900 border-zinc-800 text-xs">
+            <SelectTrigger className="w-[140px] h-8 bg-popover border-border text-xs">
               <SelectValue placeholder="Font Family" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-200">
+            <SelectContent className="bg-popover border-border text-popover-foreground">
               <SelectItem value="Monaco">Monaco</SelectItem>
               <SelectItem value="JetBrains Mono">JetBrains Mono</SelectItem>
               <SelectItem value="Geist Mono">Geist Mono</SelectItem>
@@ -106,7 +106,7 @@ export function TopPanel() {
 
         {/* Font Size */}
         <div className="flex items-center gap-3 ml-2">
-          <span className="text-xs text-zinc-400">Size ({fontSize}px)</span>
+          <span className="text-xs text-muted-foreground">Size ({fontSize}px)</span>
           <Slider
             value={[fontSize]}
             onValueChange={(v) => setFontSize(v[0])}
@@ -119,7 +119,7 @@ export function TopPanel() {
 
         {/* Ligatures */}
         <div className="flex items-center gap-2 ml-4">
-          <span className="text-xs text-zinc-400">Ligatures</span>
+          <span className="text-xs text-muted-foreground">Ligatures</span>
           <Switch
             checked={ligatures}
             onCheckedChange={setLigatures}
@@ -132,7 +132,7 @@ export function TopPanel() {
           variant="outline"
           size="sm"
           onClick={handleClear}
-          className="h-8 gap-2 bg-transparent border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800"
+          className="h-8 gap-2 bg-transparent border-border text-muted-foreground hover:text-foreground hover:bg-accent"
         >
           <Trash2 className="w-4 h-4" />
           Clear
@@ -141,7 +141,7 @@ export function TopPanel() {
           size="sm"
           onClick={handleRun}
           disabled={isExecuting}
-          className="h-8 gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+          className="h-8 gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
         >
           <Play className="w-4 h-4 fill-current" />
           {isExecuting ? 'Running...' : 'Run Code'}

@@ -18,9 +18,9 @@ export function ConsoleOutput() {
   }, [logs])
 
   return (
-    <div className="flex flex-col h-full bg-[#18181a] text-zinc-300 font-mono text-[13px]">
-      <div className="flex items-center justify-between px-4 py-2 bg-[#202022] border-b border-[#2d2d30]">
-        <div className="flex items-center gap-2 text-zinc-400 font-sans text-xs uppercase tracking-wider font-semibold">
+    <div className="flex flex-col h-full bg-background text-foreground font-mono text-[13px]">
+      <div className="flex items-center justify-between px-4 py-2 bg-secondary border-b border-border">
+        <div className="flex items-center gap-2 text-muted-foreground font-sans text-xs uppercase tracking-wider font-semibold">
           <Terminal className="w-4 h-4" />
           Output
         </div>
@@ -37,7 +37,7 @@ export function ConsoleOutput() {
 
       <ScrollArea className="flex-1 p-4">
         {logs.length === 0 ? (
-          <div className="text-zinc-600 italic">No output yet. Run your code to see results.</div>
+          <div className="text-muted-foreground italic">No output yet. Run your code to see results.</div>
         ) : (
           <div className="flex flex-col gap-1 w-full">
             {logs.map((log, i) => (
@@ -45,10 +45,10 @@ export function ConsoleOutput() {
                 key={i}
                 className={clsx(
                   "py-1 px-2 rounded w-full whitespace-pre-wrap break-all",
-                  log.type === 'error' && "text-red-400 bg-red-950/30 border-l-2 border-red-500",
+                  log.type === 'error' && "text-destructive bg-destructive/10 border-l-2 border-destructive",
                   log.type === 'warn' && "text-yellow-400 bg-yellow-950/30 border-l-2 border-yellow-500",
                   log.type === 'info' && "text-blue-400",
-                  log.type === 'log' && "text-zinc-300"
+                  log.type === 'log' && "text-foreground"
                 )}
               >
                 {log.message}

@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic'
 const CodeEditor = dynamic(() => import('../editor/CodeEditor').then(mod => mod.CodeEditor), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-[#1e1e1e] text-zinc-500">
+    <div className="flex h-full w-full items-center justify-center bg-background text-muted-foreground">
       Initializing Monaco Editor...
     </div>
   )
@@ -24,7 +24,7 @@ export function Workspace() {
   const [, setCode] = useAtom(codeAtom)
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-black text-white">
+    <div className="flex flex-col h-screen w-screen overflow-hidden bg-background text-foreground">
       <TopPanel />
 
       <div className="flex-1 min-h-0">
@@ -36,12 +36,12 @@ export function Workspace() {
           <ResizablePanel
             defaultSize={hLayout[0]}
             minSize={30}
-            className="bg-[#1e1e1e]"
+            className="bg-background"
           >
             <CodeEditor onChange={(val) => setCode(val || '')} />
           </ResizablePanel>
 
-          <ResizableHandle withHandle className="bg-[#2d2d30] hover:bg-blue-500 transition-colors" />
+          <ResizableHandle withHandle className="bg-border hover:bg-primary transition-colors" />
 
           {/* Right Panel: Output & Input */}
           <ResizablePanel defaultSize={hLayout[1]} minSize={20}>
@@ -54,7 +54,7 @@ export function Workspace() {
                 <ConsoleOutput />
               </ResizablePanel>
 
-              <ResizableHandle withHandle className="bg-[#2d2d30] hover:bg-blue-500 transition-colors" />
+              <ResizableHandle withHandle className="bg-border hover:bg-primary transition-colors" />
 
               {/* Bottom: Input */}
               <ResizablePanel defaultSize={vLayout[1]} minSize={10} collapsedSize={0}>
