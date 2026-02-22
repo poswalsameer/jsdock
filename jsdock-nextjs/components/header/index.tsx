@@ -10,8 +10,6 @@ import {
   logsAtom,
   isExecutingAtom,
   executionTimeAtom,
-  ThemeType,
-  FontType
 } from '@/store'
 import { executeCode } from '@/lib/execute-code'
 import { Button } from '@/components/ui/button'
@@ -25,6 +23,7 @@ import {
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 import { Play, Trash2 } from 'lucide-react'
+import type { Font, Theme } from '@/types'
 
 const FONT_FAMILY_MAP: Record<string, string> = {
   'Monaco': 'Monaco, Menlo, Consolas, "Courier New", monospace',
@@ -88,7 +87,7 @@ export function TopPanel() {
         {/* Theme Selector */}
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground">Theme</span>
-          <Select value={theme} onValueChange={(v) => setTheme(v as ThemeType)}>
+          <Select value={theme} onValueChange={(v) => setTheme(v as Theme)}>
             <SelectTrigger className="w-[140px] h-8 bg-popover border-border text-xs">
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
@@ -103,7 +102,7 @@ export function TopPanel() {
         {/* Font Selector */}
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground">Font</span>
-          <Select value={font} onValueChange={(v) => setFont(v as FontType)}>
+          <Select value={font} onValueChange={(v) => setFont(v as Font)}>
             <SelectTrigger className="w-[140px] h-8 bg-popover border-border text-xs">
               <SelectValue placeholder="Font Family" />
             </SelectTrigger>
