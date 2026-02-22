@@ -1,4 +1,4 @@
-import { LogEntry } from '../store'
+import type { LogEntry } from '../types'
 
 export interface ExecutionResult {
   logs: LogEntry[]

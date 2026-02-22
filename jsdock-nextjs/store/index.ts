@@ -7,7 +7,7 @@ export const codeAtom = atomWithStorage<string>('play-code', DEFAULT_CODE)
 export const themeAtom = atomWithStorage<Theme>('play-theme', 'vs-dark')
 export const fontAtom = atomWithStorage<Font>('play-font', 'Monaco')
 export const fontSizeAtom = atomWithStorage<number>('play-fontSize', 14)
-export const ligaturesAtom = atomWithStorage<boolean>('play-ligatures', true)
+export const ligaturesAtom = atomWithStorage<boolean>('play-ligatures', false)
 export const horizontalLayoutAtom = atomWithStorage<number[]>('play-h-layout', [60, 40])
 export const verticalLayoutAtom = atomWithStorage<number[]>('play-v-layout', [70, 30])
 

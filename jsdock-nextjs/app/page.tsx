@@ -3,7 +3,7 @@
 import { useAtom, useSetAtom } from 'jotai'
 import dynamic from 'next/dynamic'
 import { StdinInput } from '@/components/input'
-import { TopPanel } from '@/components/header'
+import { Header } from '@/components/header'
 import { ConsoleOutput } from '@/components/output'
 import {
   codeAtom,
@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-background text-foreground">
-      <TopPanel />
+      <Header />
 
       <div className="flex-1 min-h-0">
         <ResizablePanelGroup

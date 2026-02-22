@@ -22,6 +22,12 @@ try {
 }
 `
 
+export const FONT_FAMILY_MAP: Record<string, string> = {
+  'Monaco': 'Monaco, Menlo, Consolas, "Courier New", monospace',
+  'JetBrains Mono': 'var(--font-jetbrains-mono), monospace',
+  'Geist Mono': 'var(--font-geist-mono), monospace',
+}
+
 export const FONT_MAP: Record<string, string> = {
   'Monaco': 'Monaco, Menlo, Consolas, "Courier New", monospace',
   'JetBrains Mono': 'var(--font-jetbrains-mono), monospace',

@@ -1,18 +1,22 @@
 "use client"
 
-import { useAtom, useAtomValue } from 'jotai'
+import { useEffect, useCallback } from 'react'
+import { Play, ChevronUp, ChevronDown } from 'lucide-react'
+import type { Font, Theme } from '@/types'
+import { FONT_FAMILY_MAP } from '@/constants'
+
+import { Button } from '@/components/ui/button'
+import { executeCode } from '@/lib/execute-code'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import {
   themeAtom,
   fontAtom,
   fontSizeAtom,
-  ligaturesAtom,
   codeAtom,
   logsAtom,
   isExecutingAtom,
   executionTimeAtom,
 } from '@/store'
-import { executeCode } from '@/lib/execute-code'
-import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
@@ -20,31 +24,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Slider } from '@/components/ui/slider'
-import { Switch } from '@/components/ui/switch'
-import { Play, Trash2 } from 'lucide-react'
-import type { Font, Theme } from '@/types'
 
-const FONT_FAMILY_MAP: Record<string, string> = {
-  'Monaco': 'Monaco, Menlo, Consolas, "Courier New", monospace',
-  'JetBrains Mono': 'var(--font-jetbrains-mono), monospace',
-  'Geist Mono': 'var(--font-geist-mono), monospace',
-}
 
-export function TopPanel() {
-  const [theme, setTheme] = useAtom(themeAtom)
-  const [font, setFont] = useAtom(fontAtom)
-  const [fontSize, setFontSize] = useAtom(fontSizeAtom)
-  const [ligatures, setLigatures] = useAtom(ligaturesAtom)
-
+export function Header() {
   const code = useAtomValue(codeAtom)
+  const [font, setFont] = useAtom(fontAtom)
+  const [theme, setTheme] = useAtom(themeAtom)
+  const [fontSize, setFontSize] = useAtom(fontSizeAtom)
   const [isExecuting, setIsExecuting] = useAtom(isExecutingAtom)
-  const [, setLogs] = useAtom(logsAtom)
-  const [, setExecutionTime] = useAtom(executionTimeAtom)
+
+  const setLogs = useSetAtom(logsAtom)
+  const setExecutionTime = useSetAtom(executionTimeAtom)
 
   const fontFamily = FONT_FAMILY_MAP[font] ?? FONT_FAMILY_MAP['Monaco']
 
-  const handleRun = async () => {
+  const handleRun = useCallback(async () => {
     setIsExecuting(true)
     setLogs([])
     setExecutionTime(null)
@@ -65,33 +59,45 @@ export function TopPanel() {
     setLogs(finalLogs)
     setExecutionTime(result.executionTime)
     setIsExecuting(false)
-  }
+  }, [code, setIsExecuting, setLogs, setExecutionTime])
 
-  const handleClear = () => {
+  const handleClear = useCallback(() => {
     setLogs([])
     setExecutionTime(null)
-  }
+  }, [setLogs, setExecutionTime])
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.ctrlKey && e.key === 'Enter') {
+        e.preventDefault()
+        if (!isExecuting) handleRun()
+      } else if (e.shiftKey && e.key === 'Enter') {
+        e.preventDefault()
+        handleClear()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [isExecuting, handleRun, handleClear])
 
   return (
     <div
-      className="h-14 border-b border-border bg-card flex items-center justify-between px-4 text-card-foreground"
+      className="h-14 border-b-2 border-border bg-card flex items-center justify-between px-4 text-card-foreground"
       style={{ fontFamily }}
     >
-      <div className="flex items-center gap-4">
-        <div className="font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-400">
-          JS Playground
-        </div>
 
-        <div className="h-6 w-px bg-border mx-2" />
 
-        {/* Theme Selector */}
+      <div className="text-xl font-medium text-primary">
+        JS Dock
+      </div>
+
+      <div className='flex flex-row gap-x-4'>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">Theme</span>
           <Select value={theme} onValueChange={(v) => setTheme(v as Theme)}>
-            <SelectTrigger className="w-[140px] h-8 bg-popover border-border text-xs">
+            <SelectTrigger size="sm" className="w-44 bg-popover border-border text-sm rounded-none">
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
-            <SelectContent className="bg-popover border-border text-popover-foreground">
+            <SelectContent className="bg-popover border-border text-popover-foreground rounded-none overflow-visible">
               <SelectItem value="vs-dark">VS Code Dark</SelectItem>
               <SelectItem value="atom-dark">Atom Dark</SelectItem>
               <SelectItem value="catppuccin">Catppuccin</SelectItem>
@@ -99,14 +105,12 @@ export function TopPanel() {
           </Select>
         </div>
 
-        {/* Font Selector */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">Font</span>
           <Select value={font} onValueChange={(v) => setFont(v as Font)}>
-            <SelectTrigger className="w-[140px] h-8 bg-popover border-border text-xs">
+            <SelectTrigger size="sm" className="w-44 bg-popover border-border text-sm rounded-none">
               <SelectValue placeholder="Font Family" />
             </SelectTrigger>
-            <SelectContent className="bg-popover border-border text-popover-foreground">
+            <SelectContent className="bg-popover border-border text-popover-foreground rounded-none overflow-visible">
               <SelectItem value="Monaco">Monaco</SelectItem>
               <SelectItem value="JetBrains Mono">JetBrains Mono</SelectItem>
               <SelectItem value="Geist Mono">Geist Mono</SelectItem>
@@ -114,44 +118,46 @@ export function TopPanel() {
           </Select>
         </div>
 
-        {/* Font Size */}
-        <div className="flex items-center gap-3 ml-2">
-          <span className="text-xs text-muted-foreground">Size ({fontSize}px)</span>
-          <Slider
-            value={[fontSize]}
-            onValueChange={(v) => setFontSize(v[0])}
-            min={10}
-            max={24}
-            step={1}
-            className="w-24"
-          />
-        </div>
-
-        {/* Ligatures */}
-        <div className="flex items-center gap-2 ml-4">
-          <span className="text-xs text-muted-foreground">Ligatures</span>
-          <Switch
-            checked={ligatures}
-            onCheckedChange={setLigatures}
-          />
+        <div className="flex items-center">
+          <div className="flex items-stretch h-8 w-44 border border-border">
+            <div className="flex items-center justify-center flex-1 text-sm text-foreground bg-popover px-2 select-none tabular-nums">
+              {fontSize}px
+            </div>
+            <div className="flex flex-row border-l border-border">
+              <button
+                onClick={() => setFontSize(Math.min(24, fontSize + 1))}
+                disabled={fontSize >= 24}
+                className="flex-1 flex items-center justify-center px-1.5 text-muted-foreground hover:text-foreground hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors border-r border-border"
+              >
+                <ChevronUp className="w-3 h-3" />
+              </button>
+              <button
+                onClick={() => setFontSize(Math.max(10, fontSize - 1))}
+                disabled={fontSize <= 10}
+                className="flex-1 flex items-center justify-center px-1.5 text-muted-foreground hover:text-foreground hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronDown className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+
+      <div className="flex items-center gap-x-4">
         <Button
           variant="outline"
           size="sm"
           onClick={handleClear}
-          className="h-8 gap-2 bg-transparent border-border text-muted-foreground hover:text-foreground hover:bg-accent"
+          className="h-8 gap-2 bg-transparent border-border text-muted-foreground hover:text-foreground hover:bg-accent rounded-none"
         >
-          <Trash2 className="w-4 h-4" />
           Clear
         </Button>
         <Button
           size="sm"
           onClick={handleRun}
           disabled={isExecuting}
-          className="h-8 gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+          className="h-8 gap-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-none"
         >
           <Play className="w-4 h-4 fill-current" />
           {isExecuting ? 'Running...' : 'Run Code'}
