@@ -77,6 +77,68 @@ self.onmessage = function (e) {
 
   const startTime = performance.now()
 
+  // Track async operations
+  const originalSetTimeout = self.setTimeout
+  const originalClearTimeout = self.clearTimeout
+  const originalSetInterval = self.setInterval
+  const originalClearInterval = self.clearInterval
+
+  const pendingTimeouts = new Set()
+  const pendingIntervals = new Set()
+  let isMainFinished = false
+  let finalError = null
+
+  function attemptFinish() {
+    if (
+      isMainFinished &&
+      pendingTimeouts.size === 0 &&
+      pendingIntervals.size === 0
+    ) {
+      finish(finalError)
+    }
+  }
+
+  self.setTimeout = function (callback, delay, ...args) {
+    const id = originalSetTimeout(
+      (...cbArgs) => {
+        pendingTimeouts.delete(id)
+        try {
+          callback(...cbArgs)
+        } finally {
+          attemptFinish()
+        }
+      },
+      delay,
+      ...args,
+    )
+    pendingTimeouts.add(id)
+    return id
+  }
+
+  self.clearTimeout = function (id) {
+    pendingTimeouts.delete(id)
+    originalClearTimeout(id)
+    attemptFinish()
+  }
+
+  self.setInterval = function (callback, delay, ...args) {
+    const id = originalSetInterval(
+      (...cbArgs) => {
+        callback(...cbArgs)
+      },
+      delay,
+      ...args,
+    )
+    pendingIntervals.add(id)
+    return id
+  }
+
+  self.clearInterval = function (id) {
+    pendingIntervals.delete(id)
+    originalClearInterval(id)
+    attemptFinish()
+  }
+
   // Wrap user code in an async IIFE so that top-level await works
   const asyncExecutor = new Function(`return (async () => { ${code} })()`)
 
@@ -101,11 +163,23 @@ self.onmessage = function (e) {
 
     // If it returned a Promise (which the async IIFE does), wait for it
     if (result && typeof result.then === "function") {
-      result.then(() => finish(null)).catch((err) => finish(err.toString()))
+      result
+        .then(() => {
+          isMainFinished = true
+          attemptFinish()
+        })
+        .catch((err) => {
+          isMainFinished = true
+          finalError = err.toString()
+          attemptFinish()
+        })
     } else {
-      finish(null)
+      isMainFinished = true
+      attemptFinish()
     }
   } catch (err) {
-    finish(err.toString())
+    isMainFinished = true
+    finalError = err.toString()
+    attemptFinish()
   }
 }
